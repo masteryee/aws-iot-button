@@ -1,2 +1,7 @@
-# aws-iot-button-csharp
-C# ports of the AWS Lambda sample functions for AWS IoT Button events
+# AWS Lambda + IoT Button for .NET Core
+Repository for C# ports of the sample Lambda functions available for the AWS IoT Button
+
+## Samples
+
+* SendEmailSample
+* SendTextSample
