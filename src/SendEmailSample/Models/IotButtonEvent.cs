@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace LambdaFunctions.Models
+namespace Aws.Lambda.Models
 {
     public class IotButtonEvent
     {

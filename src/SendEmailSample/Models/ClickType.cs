@@ -1,4 +1,4 @@
-﻿namespace LambdaFunctions.Models
+﻿namespace Aws.Lambda.Models
 {
     public enum ClickType
     {

@@ -29,25 +29,26 @@
  * For more documentation, follow the link below.
  * http://docs.aws.amazon.com/iot/latest/developerguide/iot-lambda-rule.html
  */
- 
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
-using LambdaFunctions.Models;
+using Aws.Lambda.Models;
 using Newtonsoft.Json;
 
-namespace LambdaFunctions
+namespace Aws.Lambda
 {
-    public class ButtonHandler
+    public class SendEmailFunction
     {
-        private readonly AmazonSimpleEmailServiceClient  _ses = new AmazonSimpleEmailServiceClient();
+        private readonly AmazonSimpleEmailServiceClient _ses = new AmazonSimpleEmailServiceClient();
         private const string RecipientEnvironmentKey = "Recipient";
         private const string VerificationEmailWarning = "Verification email sent. Please verify it.";
 
-        public async Task HelloWorld(IotButtonEvent buttonEvent, ILambdaContext context)
+        [LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
+        public async Task ButtonHandler(IotButtonEvent buttonEvent, ILambdaContext context)
         {
             var email = Environment.GetEnvironmentVariable(RecipientEnvironmentKey);
             var payload = JsonConvert.SerializeObject(buttonEvent);
@@ -86,7 +87,7 @@ namespace LambdaFunctions
         {
             var request = new GetIdentityVerificationAttributesRequest
             {
-                Identities = new List<string> {email}
+                Identities = new List<string> { email }
             };
             var response = await _ses.GetIdentityVerificationAttributesAsync(request);
 
@@ -99,7 +100,7 @@ namespace LambdaFunctions
                     return new EmailStatus(true, string.Empty);
                 }
             }
-            
+
             return await SendVerificationAsync(email);
         }
     }
